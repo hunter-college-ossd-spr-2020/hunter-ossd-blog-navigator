@@ -1,0 +1,30 @@
+{
+
+    "manifest_version": 2,
+    "name": "Hunter OSSD Blog Navigator",
+    "version": "1.0",
+  
+    "description": "Easier navigation of student weekly blogs for Hunter College Open Source Software Course.",
+    "homepage_url": "https://github.com/hunter-college-ossd-spr-2020/hunter-ossd-blog-navigator",
+    "icons": {
+      "48": "icons/ossd-2020.png"
+    },
+
+    "permissions": [
+      "activeTab"
+    ],
+  
+    "browser_action": {
+      "default_icon": "icons/ossd-2020.png",
+      "default_title": "Blog Navigator",
+      "default_popup": "popup/popup.html"
+    },
+
+    "content_scripts": [
+      {
+        "matches": ["*://github.com/hunter-college-ossd-*/*-weekly/*","*://*.github.io/*-weekly/*"],
+        "js": ["content_scripts/navigate.js"]
+      }
+    ]
+  
+  }
