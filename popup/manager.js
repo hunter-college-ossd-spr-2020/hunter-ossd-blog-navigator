@@ -1,16 +1,25 @@
-
+//TODO: document every function cleanly.
 
 //TODO: Look into using github API to generate these.
 const usernames = 
     {
         'semester': 'spr-2020',
-        'students': ['boubascript','Edmund-Adewu', 'dmallia17', 'wongjessica', 'sdhani', 'Ks5810', 'MichelleLucero']
+        'students': ['boubascript','Edmund-Adewu', 'dmallia17', 'wongjessica', 'sdhani', 
+                     'Ks5810', 'MichelleLucero', 'gillybytes', 'ElijahCano33', 'caitlinselca',
+                     'chislee0708', 'cchloet', 'Megamega53', 'deniceysv', 'MarceloDamian', 
+                     'jaredwils', 'liulanz', 'MaiteFlores', 'matter13311', 'Mtarek7900',
+                     'ShainaLowenthal', 'Nannaquin', 'TDLorenz', 'umarkhan207322405']
     }
 ;
 
 $( document ).ready(function() {
     usernames['students'].forEach((user) => {
         $('#usernames').append("<option value='" + user + "'>");
+        $('#roster').append(`<p><a class="student" href='#'>${user}</a></p>`)
+    });
+
+    $(".student").click(function(){
+        sendNewUser($(this).text().trim());
     });
 
 });
@@ -27,34 +36,53 @@ const grabUserFromUrl = function(url) {
 }
 
 const update = function(url){
+
+    //Strip http/https part.
     url = url.slice(url.indexOf('://') + 3);
-    console.log(url)
+
     if(/^github.com\/hunter-college-ossd-.*\/.*-weekly.*$/.test(url)){
         $("#location").text(`${grabUserFromUrl(url)} Blog Repo`)
+        toggleRepo("Site")
     }
     else if(/^hunter-college-ossd-.*\.github\.io\/.*-weekly.*$/.test(url)){
         $("#location").text(`${grabUserFromUrl(url)} Blog Site`)
+        toggleRepo("Repo")
     }
     else{
         errorPage();
     }
 
 }
+const toggleRepo = function(destination){
+    $("#toggletext").text(destination)
+    $("#togglerepo").click(function() {
+        browser.tabs.query({currentWindow: true, active: true})
+        .then( (tabs) => {
+            browser.tabs.sendMessage(tabs[0].id, {
+                destination: destination,
+            })
+        });
+    })
+}
 
+//TODO: add function that clears input when enter is pressed.
 $("#inputUser").on('input', function() {
     var inputValue = $("#inputUser").val();
     if(usernames['students'].includes(inputValue)){
         //User has input a valid username from the list.
-        browser.tabs.query({currentWindow: true, active: true})
-        .then( (tabs) => {
-            browser.tabs.sendMessage(tabs[0].id, {
-                user: inputValue,
-            })
-        });
+        sendNewUser(inputValue);
         $("#location").text(inputValue)
     }
 });
 
+const sendNewUser = function(user){
+    browser.tabs.query({currentWindow: true, active: true})
+    .then( (tabs) => {
+        browser.tabs.sendMessage(tabs[0].id, {
+            user: user,
+        })
+    });
+}
 
 function errorPage() {
     document.querySelector("#popup-content").classList.add("hidden");
