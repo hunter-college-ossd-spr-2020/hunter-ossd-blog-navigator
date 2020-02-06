@@ -16,6 +16,7 @@ const usernames =
  * Populate Popup with hard coded student github usernames.
  */
 $( document ).ready(function() {
+    // TODO: add .filter here so the current student's username is not included in the list
     usernames['students'].forEach((user) => {
         $('#usernames').append("<option value='" + user + "'>");
         $('#roster').append(`<p><a class="student" href='#'>${user}</a></p>`)
