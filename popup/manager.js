@@ -12,6 +12,9 @@ const usernames =
     }
 ;
 
+/**
+ * Populate Popup with hard coded student github usernames.
+ */
 $( document ).ready(function() {
     usernames['students'].forEach((user) => {
         $('#usernames').append("<option value='" + user + "'>");
@@ -40,10 +43,12 @@ const update = function(url){
     //Strip http/https part.
     url = url.slice(url.indexOf('://') + 3);
 
+    // Regex matching blog repo.
     if(/^github.com\/hunter-college-ossd-.*\/.*-weekly.*$/.test(url)){
         $("#location").text(`${grabUserFromUrl(url)} Blog Repo`)
         toggleRepo("Site")
     }
+    // Regex matching blog site.
     else if(/^hunter-college-ossd-.*\.github\.io\/.*-weekly.*$/.test(url)){
         $("#location").text(`${grabUserFromUrl(url)} Blog Site`)
         toggleRepo("Repo")
@@ -53,6 +58,7 @@ const update = function(url){
     }
 
 }
+
 const toggleRepo = function(destination){
     $("#toggletext").text(destination)
     $("#togglerepo").click(function() {
@@ -75,6 +81,9 @@ $("#inputUser").on('input', function() {
     }
 });
 
+/**
+ * Send new username to content script to update url.
+ */
 const sendNewUser = function(user){
     browser.tabs.query({currentWindow: true, active: true})
     .then( (tabs) => {
@@ -84,12 +93,12 @@ const sendNewUser = function(user){
     });
 }
 
-function errorPage() {
+const errorPage = function() {
     document.querySelector("#popup-content").classList.add("hidden");
     document.querySelector("#error-content").classList.remove("hidden");
 }
 
-function resetPage() {
+const resetPage = function() {
     document.querySelector("#popup-content").classList.remove("hidden");
     document.querySelector("#error-content").classList.add("hidden");
 }
@@ -112,6 +121,9 @@ browser.tabs.executeScript({file: "/content_scripts/navigate.js"})
 .then(getCurrentUrl)
 .catch(reportExecuteScriptError);
 
+/**
+ * When a tab url is updated, check if it is a blog url and update popup.
+ */
 browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     resetPage();
     update(tab.url);
