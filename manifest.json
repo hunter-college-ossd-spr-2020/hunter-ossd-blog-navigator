@@ -11,9 +11,11 @@
     },
 
     "permissions": [
-      "activeTab"
+      "activeTab",
+      "tabs"
     ],
   
+    
     "browser_action": {
       "default_icon": "icons/ossd-2020.png",
       "default_title": "Blog Navigator",

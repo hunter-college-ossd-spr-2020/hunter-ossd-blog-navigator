@@ -1,17 +1,11 @@
 html, body {
-    width: 100px;
+    /* width: 100px; */
   }
   
   .hidden {
     display: none;
   }
   
-  .button {
-    margin: 3% auto;
-    padding: 4px;
+  .header {
     text-align: center;
-    font-size: 1.5em;
-    cursor: pointer;
-    background-color: #E5F2F2;
   }
-  
