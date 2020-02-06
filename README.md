@@ -13,8 +13,7 @@ This add-on allows you to navigate between weekly blogs and weekly blog repos fo
 
 To test the add-on in Firefox:
  
-1. Go to [about:debugging](https://about:debugging) in the search bar.
-2. Click on the [“This Firefox”](https://about:debugging#/runtime/this-firefox) link. (Clicking it here will also take you directly there)
+1. Go to `about:debugging#/runtime/this-firefox` in the search bar.
 3. Click Load Temporary Add-on…
 4. Select any file in the top level of the repo (usually manifest.json).
 5. Now the extension is installed, but the popup will simply show an error message if you are not on a Spring 2020 blog site or blog repo.
