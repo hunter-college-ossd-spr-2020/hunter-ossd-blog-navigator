@@ -7,7 +7,8 @@ This add-on allows you to navigate between weekly blogs and weekly blog repos fo
 ## Features 
 - [x] Search for a username or select from list of students
 - [x] Toggle between a blog site and the repo for the site
-- [ ] Search across previous semesters
+- [ ] Search across blogs from previous semesters
+- [ ] Go to github edit link directly from a site page 
 
 ## Installation
 
