@@ -10,20 +10,35 @@
       window.hasRun = true;
 
 
-    //TODO: combine switchUser and switchContext functions
-
     /**
-     * Change github username in url
+     * Change url to new location
      */
-     function switchUser(user){
-         window.location.href = window.location.href.replace(/[\w-]*-weekly/,`${user}-weekly`)
+
+     function navigate(destination){
+        let currentUrl = window.location.href;
+
+        if(destination.semester){
+            let currentSemester = currentUrl.match(/hunter-college-ossd-[\w-]*/)[0];
+            currentUrl = currentUrl.replace(currentSemester, currentSemester.replace(/ossd-[\w-]*/, `ossd-${destination.semester}`));
+        }
+        if(destination.user){
+            currentUrl = currentUrl.replace(/[\w-]*-weekly/,`${destination.user}-weekly`);
+        }
+
+        if(destination.context) {
+            switchContext(destination.context, currentUrl);
+        }
+        else {
+            window.location.href = currentUrl;
+        }
+
      }
+
 
     /**
      * Switch between blog site and repository
      */
-    function switchContext(destination){
-        let currentUrl = window.location.href;
+    function switchContext(destination, currentUrl){
         //TODO: Make url go directly to file in repo corresponding to the page.
         // ex: weekly/about  => weekly/blob/gh-pages/about.md
         //     weekly/week01 => weekly/blob/gh-pages/_posts/2020-02-02-week01.md
@@ -42,14 +57,11 @@
 
     /**
      * Listen for messages from the background script.
-     * Call "switchUser()".
+     * Call "navigate()".
     */
    browser.runtime.onMessage.addListener((message) => {
-       if(message.user){
-        switchUser(message.user);
-       }
-       else if(message.destination){
-        switchContext(message.destination);
+       if(message.destination){
+            navigate(message.destination);
        }
   });
 

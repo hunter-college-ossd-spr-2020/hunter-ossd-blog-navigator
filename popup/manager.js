@@ -1,32 +1,47 @@
 //TODO: document every function cleanly.
 
 //TODO: Look into using github API to generate these.
-const usernames = 
-    {
-        'semester': 'spr-2020',
-        'students': ['boubascript','Edmund-Adewu', 'dmallia17', 'wongjessica', 'sdhani', 
+const usernames = {
+    'spr-2020' :  ['boubascript','Edmund-Adewu', 'dmallia17', 'wongjessica', 'sdhani', 
                      'Ks5810', 'MichelleLucero', 'gillybytes', 'ElijahCano33', 'caitlinselca',
                      'chislee0708', 'cchloet', 'Megamega53', 'deniceysv', 'MarceloDamian', 
                      'jaredwils', 'liulanz', 'MaiteFlores', 'matter13311', 'Mtarek7900',
-                     'ShainaLowenthal', 'Nannaquin', 'TDLorenz', 'umarkhan207322405']
-    }
-;
+                     'ShainaLowenthal', 'Nannaquin', 'TDLorenz', 'umarkhan207322405'],
+    
+    'fall-2019':  ['kkhan01','Zabari', 'srafi1', 'kbarias', 'Aleks118', 'giocare', 
+                    'sajarindider', 'nancydocode', 'darrenzhang2000', 'Bakainkorp',
+                    'nancydocode', 'ariella879', 'benjaminIgur', 'shadoow12ac', 'Nerouse',
+                    'R-Ligier', 'ValeroM', 'vioelsdm', 'sophiabonsu', 'tobyau', 'hjiang4332',
+                    'azheng4119', 'rajsukanya', 'jxuan101', 'shakeel30', 'enEin100', 'HubertYe',
+                    'waterpolymer', 'sjku1'],
+
+    'spr19': ['yizongk', 'DanieSegarra36', 'f0cus10', 'gutierrezjdr', 'Chocolate-Spaghet', 
+              'mxmsunny','codesue', 'johncgenere', 'HasanAbdullah31', 'ejguzm19', 
+              'jch8ri', 'msats5', 'rramnauth11', 'gsvetleen', 'stonemoore2', 'Eli10',
+              'emmacromeo', 'nCarol595', 'Undid-Iridium', 'Shane-Lester99' ]
+};
 
 /**
- * Populate Popup with hard coded student github usernames.
+ * Populate Popup with hard coded student github usernames on popup load.
  */
 $( document ).ready(function() {
     // TODO: add .filter here so the current student's username is not included in the list
-    usernames['students'].forEach((user) => {
-        $('#usernames').append("<option value='" + user + "'>");
+    loadUsernames($("#semester").val());
+
+});
+
+const loadUsernames = (semester) => {
+    $('#usernames').empty();
+    $('#roster').empty();
+    usernames[semester].forEach((user) => {
+        $('#usernames').append(`<option value='${user}'>`);
         $('#roster').append(`<p><a class="student" href='#'>${user}</a></p>`)
     });
 
     $(".student").click(function(){
-        sendNewUser($(this).text().trim());
+        sendNewUser($(this).text().trim(), $("#semester").val());
     });
-
-});
+}
 
 const getCurrentUrl = function(){
     browser.tabs.query({currentWindow: true, active: true})
@@ -40,7 +55,6 @@ const grabUserFromUrl = function(url) {
 }
 
 const update = function(url){
-
     //Strip http/https part.
     url = url.slice(url.indexOf('://') + 3);
 
@@ -66,33 +80,32 @@ const toggleRepo = function(destination){
         browser.tabs.query({currentWindow: true, active: true})
         .then( (tabs) => {
             browser.tabs.sendMessage(tabs[0].id, {
-                destination: destination,
+                destination: {
+                    context: destination
+                }
             })
         });
     })
 }
 
-//TODO: add function that clears input when enter is pressed.
 $("#inputUser").on('input', function() {
     var inputValue = $("#inputUser").val();
-    if(usernames['students'].includes(inputValue)){
+    if(usernames[$("#semester").val()].includes(inputValue)){
         //User has input a valid username from the list.
-        sendNewUser(inputValue);
+        sendNewUser(inputValue, $("#semester").val());
         $("#location").text(inputValue)
     }
 });
 
-/**
- * Send new username to content script to update url.
- */
-const sendNewUser = function(user){
-    browser.tabs.query({currentWindow: true, active: true})
-    .then( (tabs) => {
-        browser.tabs.sendMessage(tabs[0].id, {
-            user: user,
-        })
-    });
-}
+// Clear input when user clicks to search for another username
+$("#inputUser").on('click', function() {
+    $("#inputUser").val("")
+});
+
+$("#semester").on('change', function() {
+    loadUsernames($("#semester").val());
+});
+
 
 const errorPage = function() {
     document.querySelector("#popup-content").classList.add("hidden");
@@ -111,6 +124,21 @@ const resetPage = function() {
 function reportExecuteScriptError(error) {
     errorPage()
     console.error(`Failed to execute navigate content script: ${error.message}`);
+}
+
+/**
+ * Send new username to content script to update url.
+ */
+const sendNewUser = function(user, semester){
+    browser.tabs.query({currentWindow: true, active: true})
+    .then( (tabs) => {
+        browser.tabs.sendMessage(tabs[0].id, {
+            destination : {
+                user: user,
+                semester: semester
+            }
+        })
+    });
 }
 
 /**
