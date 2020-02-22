@@ -18,14 +18,25 @@
       </select> 
     </h4>
 
+    <p> Search for a username</p>
     <input id="inputUser" list="usernames" name="chooseUser">
     <datalist id="usernames"></datalist>
 
-    <div>
-      <p id="location"> </p> <button id="togglerepo"> Switch to <span id="toggletext"> </span> </button>
-      <div id="roster"> </div>
+    <div id="carousel">
+      <div id="prevUser" class="navButton" >
+        <img src="https://svgsilh.com/png/2423347-ffc107.png">
+      </div>
+      <div id="current">
+        <p> <strong>Current Location</strong></p>
+        <p id="location"> </p> <button id="togglerepo"> Switch to <span id="toggletext"> </span> </button>
+      </div>
+      <div id="nextUser" class="navButton">
+        <img src="https://svgsilh.com/png/2423349-ffc107.png">
+      </div>
     </div>
-      
+
+    <p> Username Roster for this semester:</p>
+    <div id="roster"> </div>
   </div>
   <div id="error-content" class="hidden">
     <p>There was an issue. Perhaps you are not on a blog page or repository? </p>

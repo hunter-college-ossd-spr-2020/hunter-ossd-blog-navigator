@@ -6,10 +6,40 @@ body {
     text-align:center;
 }
   
-  .hidden {
-    display: none;
-  }
-  
-  .header {
-    text-align: center;
-  }
+.hidden {
+  display: none;
+}
+
+.header {
+  text-align: center;
+}
+
+#current {
+  border: 1px solid grey;
+  border-radius: 10px;
+  width: 60%
+}
+
+#carousel {
+  margin: 2em 0 2em 0;
+}
+#carousel > * {
+  display:inline-block;
+}
+
+.navButton {
+}
+
+.navButton img {
+  max-width: 3em;
+  height: 100%;
+  padding-top: 50%;
+}
+
+#prevUser {
+  float: left;
+}
+
+#nextUser {
+  float: right;
+}

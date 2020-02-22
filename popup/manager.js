@@ -2,11 +2,11 @@
 
 //TODO: Look into using github API to generate these.
 const usernames = {
-    'spr-2020' :  ['boubascript','Edmund-Adewu', 'dmallia17', 'wongjessica', 'sdhani', 
-                     'Ks5810', 'MichelleLucero', 'gillybytes', 'ElijahCano33', 'caitlinselca',
+    'spr-2020' :  ['boubascript', 'dmallia17', 'wongjessica', 'sdhani', 'Ks5810',
+                     'MichelleLucero', 'gillybytes', 'Edmund-Adewu','ElijahCano33', 'caitlinselca',
                      'chislee0708', 'cchloet', 'Megamega53', 'deniceysv', 'MarceloDamian', 
                      'jaredwils', 'liulanz', 'MaiteFlores', 'matter13311', 'Mtarek7900',
-                     'ShainaLowenthal', 'Nannaquin', 'TDLorenz', 'umarkhan207322405'],
+                     'Nannaquin', 'TDLorenz', 'umarkhan207322405'],
     
     'fall-2019':  ['kkhan01','Zabari', 'srafi1', 'kbarias', 'Aleks118', 'giocare', 
                     'sajarindider', 'nancydocode', 'darrenzhang2000', 'Bakainkorp',
@@ -15,11 +15,13 @@ const usernames = {
                     'azheng4119', 'rajsukanya', 'jxuan101', 'shakeel30', 'enEin100', 'HubertYe',
                     'waterpolymer', 'sjku1'],
 
-    'spr19': ['yizongk', 'DanieSegarra36', 'f0cus10', 'gutierrezjdr', 'Chocolate-Spaghet', 
+    'spr19': ['yizongk', 'f0cus10', 'DanieSegarra36', 'Chocolate-Spaghet', 'gutierrezjdr', 
               'mxmsunny','codesue', 'johncgenere', 'HasanAbdullah31', 'ejguzm19', 
               'jch8ri', 'msats5', 'rramnauth11', 'gsvetleen', 'stonemoore2', 'Eli10',
               'emmacromeo', 'nCarol595', 'Undid-Iridium', 'Shane-Lester99' ]
 };
+
+let currentIndex;
 
 /**
  * Populate Popup with hard coded student github usernames on popup load.
@@ -58,6 +60,8 @@ const update = function(url){
     //Strip http/https part.
     url = url.slice(url.indexOf('://') + 3);
 
+    currentIndex = usernames[$("#semester").val()].indexOf(grabUserFromUrl(url));
+
     // Regex matching blog repo.
     if(/^github.com\/hunter-college-ossd-.*\/.*-weekly.*$/.test(url)){
         $("#location").text(`${grabUserFromUrl(url)} Blog Repo`)
@@ -95,6 +99,21 @@ $("#inputUser").on('input', function() {
         sendNewUser(inputValue, $("#semester").val());
         $("#location").text(inputValue)
     }
+});
+
+$("#prevUser img").on('click', function() {
+    console.log(currentIndex - 1)
+    let semesterList = usernames[$("#semester").val()];
+    sendNewUser(semesterList[(currentIndex != 0 ? currentIndex - 1 : semesterList.length - 1)], $("#semester").val());
+    $("#location").text(semesterList[(currentIndex - 1) % semesterList.length])
+
+});
+
+$("#nextUser img").on('click', function() {
+    console.log(currentIndex + 1)
+    let semesterList = usernames[$("#semester").val()];
+    sendNewUser(semesterList[(currentIndex + 1) % semesterList.length], $("#semester").val());
+    $("#location").text(semesterList[(currentIndex - 1) % semesterList.length])
 });
 
 // Clear input when user clicks to search for another username
