@@ -101,19 +101,17 @@ $("#inputUser").on('input', function() {
     }
 });
 
-$("#prevUser img").on('click', function() {
-    console.log(currentIndex - 1)
-    let semesterList = usernames[$("#semester").val()];
-    sendNewUser(semesterList[(currentIndex != 0 ? currentIndex - 1 : semesterList.length - 1)], $("#semester").val());
-    $("#location").text(semesterList[(currentIndex - 1) % semesterList.length])
+// Carousel navigation
+const getNextUser = function(index) {
+    sendNewUser(usernames[$("#semester").val()][index], $("#semester").val());
+}
 
+$("#prevUser img").on('click', function() {
+    getNextUser(currentIndex == 0 ? usernames[$("#semester").val()].length - 1 : currentIndex - 1);
 });
 
 $("#nextUser img").on('click', function() {
-    console.log(currentIndex + 1)
-    let semesterList = usernames[$("#semester").val()];
-    sendNewUser(semesterList[(currentIndex + 1) % semesterList.length], $("#semester").val());
-    $("#location").text(semesterList[(currentIndex - 1) % semesterList.length])
+    getNextUser(currentIndex == usernames[$("#semester").val()].length - 1 ? 0 : currentIndex + 1);
 });
 
 // Clear input when user clicks to search for another username
