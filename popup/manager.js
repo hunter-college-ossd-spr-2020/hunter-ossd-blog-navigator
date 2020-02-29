@@ -137,7 +137,7 @@ $(document).keydown(function(e) {
 
         case 'a':
         case 'ArrowLeft': // left
-            getNextUser(currentIndex == usernames[$("#semester").val()].length - 1 ? 0 : currentIndex + 1);
+            getNextUser(currentIndex == 0 ? usernames[$("#semester").val()].length - 1 : currentIndex - 1);
             break;
 
 
