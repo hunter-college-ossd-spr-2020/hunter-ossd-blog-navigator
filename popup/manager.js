@@ -125,25 +125,22 @@ $("#semester").on('change', function() {
 
 // Keyboard navigation for the 1337 hackers
 $(document).keydown(function(e) {
-    e.preventDefault(); // prevent the default action (scroll / move caret)
     console.log(e.which);
     console.log(e.key);
     switch(e.key) {
 
-        case 'd':
         case 'ArrowRight': // right
             getNextUser(currentIndex == usernames[$("#semester").val()].length - 1 ? 0 : currentIndex + 1);
             break;
 
-        case 'a':
         case 'ArrowLeft': // left
             getNextUser(currentIndex == 0 ? usernames[$("#semester").val()].length - 1 : currentIndex - 1);
             break;
 
 
-        default: return; // exit this handler for other keys
+        //default: return; // exit this handler for other keys
     }
-    e.preventDefault(); // prevent the default action (scroll / move caret)
+    //e.preventDefault(); // prevent the default action (scroll / move caret)
 });
 
 const errorPage = function() {
