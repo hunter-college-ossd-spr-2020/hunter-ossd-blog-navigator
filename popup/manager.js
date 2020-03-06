@@ -138,9 +138,8 @@ $(document).keydown(function(e) {
             break;
 
 
-        //default: return; // exit this handler for other keys
+        default: return; // exit this handler for other keys
     }
-    //e.preventDefault(); // prevent the default action (scroll / move caret)
 });
 
 const errorPage = function() {
