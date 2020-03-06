@@ -33,7 +33,7 @@ This add-on allows you to navigate between weekly blogs and weekly blog repos fo
 ## Contributing
 
 File an issue if the extension isn't working correctly or as expected. \
-Feel free to try adding features or fixing bugs. Just make a pull request against the `develop` branch. \
+Feel free to try adding features or fixing bugs. Just make a pull request against the `dev` branch. \
 Let's make the blog editing activity easier for everyone, together ! \
 Check out [CONTRIBUTING](CONTRIBUTING.md) for more details.
 
